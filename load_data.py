@@ -1,40 +1,31 @@
-import pandas as pd
+import duckdb
 from pathlib import Path
-from tqdm import tqdm
 
 
-def load_data(*file_list) -> pd.DataFrame | None:
-    '''
-    Loads data from CSV files in the specified directory. If no file names are provided, it loads all CSV files in the directory.
-    Parameters:
-        *file_list: A variable number of file names to load.
-    Returns:
-        A pandas DataFrame containing the loaded data, or None if an error occurs.'''
-    data_dir = Path("data")
-    
-    if not file_list:
-        df_list = pd.DataFrame()
-        for file_name in tqdm(data_dir.glob("*.csv")):
-            try:
-                data = pd.read_csv(file_name)
-                df_list = pd.concat([df_list, data], ignore_index=True)
-            except Exception as e:
-                print(f"An error occurred while loading the data: {e}")
-                return None
-        return df_list
-    else:
-        df_list = pd.DataFrame()
-        for file_name in tqdm(file_list):
-            try:
-                data = pd.read_csv(data_dir / file_name)
-                df_list = pd.concat([df_list, data], ignore_index=True)
-            except Exception as e:
-                print(f"An error occurred while loading the data: {e}")
-                return None
-        return df_list
-    
+db_path = 'banco.db'
+data_dir = Path('data/') 
 
-if __name__ == "__main__":
-    data = load_data('yellow_tripdata_2015-01.csv')
-    if data is not None:
-        print(data.head())
+print(f"Verificando pasta de dados: {data_dir.resolve()}")
+
+arquivos_encontrados = list(data_dir.glob('yellow_tripdata_*.csv'))
+print(f"Arquivos CSV encontrados: {len(arquivos_encontrados)}")
+
+for f in arquivos_encontrados:
+    print(f" - {f.name}")
+
+if len(arquivos_encontrados) == 0:
+    print("❌ ERRO: Nenhum arquivo CSV encontrado! Verifique se a variável 'data_dir' está correta.")
+else:
+    with duckdb.connect(db_path) as con:
+        print("\nLimpando e reimportando...")
+        con.sql("DROP TABLE IF EXISTS taxi_data")
+        con.sql(f"""
+            CREATE TABLE taxi_data AS 
+            SELECT * FROM read_csv('{data_dir}/yellow_tripdata_*.csv', 
+                                   header=True, 
+                                   union_by_name=True)
+        """)
+        
+        total = con.sql("SELECT count(*) FROM taxi_data").fetchone()[0]
+        print(f"✅ SUCESSO! Agora a tabela tem {total} linhas.")
+        
