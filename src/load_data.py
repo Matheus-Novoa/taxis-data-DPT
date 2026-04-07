@@ -2,8 +2,8 @@ import duckdb
 from pathlib import Path
 
 
-db_path = 'banco.db'
-data_dir = Path('data/') 
+db_path = 'data/bronze/banco.db'
+data_dir = Path('data/raw') 
 
 print(f"Verificando pasta de dados: {data_dir.resolve()}")
 
