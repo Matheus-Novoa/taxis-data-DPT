@@ -12,3 +12,5 @@ data
 *.db
 notas
 notebooks
+.opencode
+skills-lock.json

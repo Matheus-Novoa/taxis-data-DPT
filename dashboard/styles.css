@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap');
+
+:root {
+    --bg-primary: #0F1419;
+    --bg-secondary: #1C2128;
+    --bg-tertiary: #242B35;
+    --text-primary: #F0F3F6;
+    --text-secondary: #8B949E;
+    --accent: #58A6FF;
+    --accent-secondary: #F78166;
+    --border: #30363D;
+}
+
+.stApp {
+    background: var(--bg-primary);
+    font-family: 'Outfit', sans-serif;
+}
+
+.header-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.03em;
+}
+
+.header-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.metric-card {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 1.75rem;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(88, 166, 255, 0.15);
+}
+
+.metric-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+}
+
+.metric-value {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+.section-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.chart-container {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 0.3rem;
+    border: 1px solid var(--border);
+}
+
+.divider {
+    height: 1px;
+    background: var(--border);
+    margin: 2rem 0;
+}
+
+.footer {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    padding: 1rem;
+}
+
+div[data-testid="stMetricValue"] {
+    color: var(--text-primary) !important;
+}
+
+div[data-testid="stMetricLabel"] {
+    color: var(--text-secondary) !important;
+}
